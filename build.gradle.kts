@@ -13,8 +13,10 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
-    compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
-    compileOnly("org.glassfish:jakarta.faces:4.0.0")
+    implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0")
+
+    implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
+    implementation("org.glassfish:jakarta.faces:4.0.0")
 
     implementation("org.primefaces:primefaces:13.0.0:jakarta")
 
