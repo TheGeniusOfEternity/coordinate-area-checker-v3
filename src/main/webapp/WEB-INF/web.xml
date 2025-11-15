@@ -15,6 +15,6 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>start.xhtml</welcome-file>
+        <welcome-file>/pages/start.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
