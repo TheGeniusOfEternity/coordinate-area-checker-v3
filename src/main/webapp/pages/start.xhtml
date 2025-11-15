@@ -2,7 +2,6 @@
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:p="http://primefaces.org/ui"
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/components"
 >
   <h:head>
@@ -20,13 +19,8 @@
       groupName="P3222"
       taskId="74834"
     />
-    <h:form>
-      <p:clock
-        mode="server"
-        value="#{clockBean.dateTime}"
-        autoSync="true"
-        syncInterval="13000"
-      />
-    </h:form>
+    <comp:clock
+      styleClass="clock"
+    />
   </h:body>
 </html>

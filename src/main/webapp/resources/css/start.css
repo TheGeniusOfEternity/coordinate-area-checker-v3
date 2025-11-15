@@ -6,6 +6,13 @@ body {
     animation: zoomOut 0.9s ease 0.1s forwards;
 }
 
+.clock {
+    width: 20%;
+    position: absolute;
+    top: 15%;
+    left: 40%;
+}
+
 @keyframes zoomOut {
     from {
         background-size: 200%;
