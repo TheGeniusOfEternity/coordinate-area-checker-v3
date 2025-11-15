@@ -1,14 +1,22 @@
 <ui:component
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui"
 >
   <cc:interface>
     <cc:attribute name="format" default="dd.mm.yyyy hh.mm.ss" />
     <cc:attribute name="styleClass" required="false" />
     <cc:attribute name="appear" default="true" />
+    <cc:attribute name="syncInterval" default="5" />
+    <cc:attribute name="syncListener" required="true" />
   </cc:interface>
   <cc:implementation>
+    <p:poll
+      interval="#{cc.attrs.syncInterval}"
+      listener="#{clockBean.updateTime()}"
+      oncomplete="clock.sync()"
+      id="clockPoll_#{cc.clientId}"
+    />
     <div class="container #{cc.attrs.styleClass} #{cc.attrs.appear ? 'animated' : ''}">
       <svg version="1.1"
            id="lcd-clock"
@@ -355,10 +363,16 @@
 
       const clock = {
           clocktime: {},
+          serverTime: new Date(parseInt("#{clockBean.dateTimeMillis}")),
+          clientStartTime: Date.now(),
           dots: document.querySelectorAll('#lcd-clock .dots'),
           dotsState: false,
+          getCurrentTime: function () {
+              const elapsed = Date.now() - this.clientStartTime;
+              return new Date(this.serverTime.getTime() + elapsed);
+          },
           updateClock: function (){
-              const time = new Date();
+              const time = clock.getCurrentTime()
               clock.clocktime.hour   = time.getHours();
               clock.clocktime.minute = time.getMinutes();
               clock.clocktime.second = time.getSeconds();
@@ -380,9 +394,7 @@
                       document.querySelector(selector).classList.add(className);
                   }
               }
-              clock.toggleDots();
           },
-
           toggleDots: function() {
               const num_dots = clock.dots.length;
               for (let i = 0; i < num_dots; i++) {
@@ -395,10 +407,17 @@
               clock.dotsState = !clock.dotsState;
           },
 
+          sync: function() {
+              this.serverTime = new Date(parseInt("#{clockBean.dateTimeMillis}"))
+              this.clientStartTime = Date.now();
+              this.updateClock()
+          },
+
           init: function() {
               clock.toggleDots();
               clock.updateClock();
               setInterval(clock.updateClock, 500);
+              setInterval(clock.toggleDots, 800);
           }
       };
 
