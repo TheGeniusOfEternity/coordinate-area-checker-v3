@@ -15,8 +15,8 @@ class MainPageBean: Serializable {
         return x
     }
 
-    fun setX(x: String?) {
-        this.x = x?.toIntOrNull()
+    fun setX(x: Int?) {
+        this.x = x
     }
 
     fun getY(): Float? {
@@ -31,8 +31,8 @@ class MainPageBean: Serializable {
         return r
     }
 
-    fun setR(r: String?) {
-        this.r = r?.toIntOrNull()
+    fun setR(r: Int?) {
+        this.r = r
     }
 
     fun submitForm(): String {

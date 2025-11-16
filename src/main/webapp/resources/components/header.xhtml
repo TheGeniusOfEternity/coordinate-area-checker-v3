@@ -25,6 +25,7 @@
                 iconPos="right"
                 value="Перейти на основную страницу"
                 action="#{startPageBean.goToMainPage}"
+                onclick="cleanupBeforeNavigation()"
               />
             </h:form>
           </li>
@@ -75,5 +76,17 @@
             }
         }
     </style>
+    <script>
+        function cleanupBeforeNavigation() {
+            for (let i = 1; i &lt; 10000; i++) {
+                clearInterval(i);
+                clearTimeout(i);
+            }
+
+            const oldBody = document.body;
+            const newBody = oldBody.cloneNode(true);
+            oldBody.parentNode.replaceChild(newBody, oldBody);
+        }
+    </script>
   </cc:implementation>
 </ui:component>
