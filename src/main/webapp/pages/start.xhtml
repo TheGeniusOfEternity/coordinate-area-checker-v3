@@ -11,9 +11,7 @@
     <h:outputStylesheet library="css" name="start.css" />
     <title>JSF - Стартовая страница</title>
   </h:head>
-  <h:body
-    style="background-image: url('#{resource['images/start-background.jpeg']}')"
-  >
+  <h:body>
     <comp:header
       studentCredits="Сафин Максим Владиславович"
       groupName="P3222"
@@ -22,5 +20,9 @@
     <comp:clock
       styleClass="clock"
     />
+    <h:outputScript target="body">
+      document.body.classList.remove("zoomed-in")
+      document.body.classList.add("zoomed-out")
+    </h:outputScript>
   </h:body>
 </html>

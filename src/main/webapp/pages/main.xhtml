@@ -4,6 +4,7 @@
   xmlns:h="http://xmlns.jcp.org/jsf/html"
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 >
   <h:head>
     <h:outputStylesheet library="css" name="common.css" />
@@ -11,22 +12,30 @@
     <meta charset="UTF-8"/>
     <title>JSF - Главная страница</title>
   </h:head>
-  <h:body>
-    <h:form>
-      <!-- Ввод X через commandLink -->
-      <p:outputLabel value="X: " />
-      <p:commandLink update="x-text" value="-5" action="#{mainPageBean.setX('-5')}" />
-      <p:commandLink update="x-text" value="-4" action="#{mainPageBean.setX('-4')}" />
-      <p:commandLink update="x-text" value="-3" action="#{mainPageBean.setX('-3')}" />
-      <p:commandLink update="x-text" value="-2" action="#{mainPageBean.setX('-2')}" />
-      <p:commandLink update="x-text" value="-1" action="#{mainPageBean.setX('-1')}" />
-      <p:commandLink update="x-text" value="0" action="#{mainPageBean.setX('0')}" />
-      <p:commandLink update="x-text" value="1" action="#{mainPageBean.setX('1')}" />
-      <p:commandLink update="x-text" value="2" action="#{mainPageBean.setX('2')}" />
-      <p:commandLink update="x-text" value="3" action="#{mainPageBean.setX('3')}" />
-      <br/>
-      Выбранное X: <h:outputText id="x-text" value="#{mainPageBean.x}" />
-      <br/><br/>
+  <h:body styleClass="zoomed-in">
+    <h:form styleClass="form section">
+      <div class="input-block">
+        <p:outputLabel for="x-text" styleClass="label" value="X: " />
+        <div class="options">
+          <h:inputHidden id="x-text" value="#{mainPageBean.x}" />
+          <ui:repeat
+            var="xValue"
+            value="#{mainPageBean.optionsX}"
+          >
+            <p:commandLink
+              styleClass="#{
+                mainPageBean.x == xValue
+                  ? 'x-option selected'
+                  : 'x-option'
+              }"
+              update="@form"
+              value="#{xValue}"
+              disabled="#{mainPageBean.x == xValue ? true : false}"
+              action="#{mainPageBean.setX(xValue)}"
+            />
+          </ui:repeat>
+        </div>
+      </div>
 
       <!-- Ввод Y -->
       <h:outputLabel value="Y: " for="yInput"/>
@@ -44,8 +53,35 @@
       </h:selectOneMenu>
       <br/>
 
-      <h:commandButton value="Отправить" action="#{mainPageBean.submitForm}" />
+      <div class="buttons">
+        <h:commandButton
+          value="Отправить"
+          action="#{mainPageBean.submitForm}"
+        />
+        <p:commandButton
+          styleClass="ui-button-flat redirect-btn"
+          icon="pi pi-arrow-left"
+          value="Вернуться на стартовую страницу"
+          action="#{mainPageBean.goToStartPage}"
+          onclick="cleanupBeforeNavigation()"
+        />
+      </div>
     </h:form>
+    <script>
+        function cleanupBeforeNavigation() {
+            for (let i = 1; i &lt; 10000; i++) {
+                clearInterval(i);
+                clearTimeout(i);
+            }
 
+            const oldBody = document.body;
+            const newBody = oldBody.cloneNode(true);
+            oldBody.parentNode.replaceChild(newBody, oldBody);
+        }
+    </script>
+    <h:outputScript target="body">
+      document.body.classList.remove("zoomed-out")
+      document.body.classList.add("zoomed-in")
+    </h:outputScript>
   </h:body>
 </html>

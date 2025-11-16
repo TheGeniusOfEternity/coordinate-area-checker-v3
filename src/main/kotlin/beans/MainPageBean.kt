@@ -11,6 +11,12 @@ class MainPageBean: Serializable {
     private var y: Float? = null
     private var r: Int? = null
 
+    private val optionsX = listOf(-5, -4, -3, -2, -1, 0, 1, 2, 3)
+
+    fun getOptionsX(): List<Int> {
+        return optionsX
+    }
+
     fun getX(): Int? {
         return x
     }
@@ -41,6 +47,10 @@ class MainPageBean: Serializable {
         println("R: " + this.r)
 
         // Обработка данных
+        return "success"
+    }
+
+    fun goToStartPage(): String {
         return "success"
     }
 }
