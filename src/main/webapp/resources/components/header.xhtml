@@ -3,6 +3,7 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite"
   xmlns:p="http://primefaces.org/ui"
+  xmlns:h="jakarta.faces.html"
 >
   <cc:interface>
     <cc:attribute name="studentCredits" required="true" />
@@ -17,13 +18,15 @@
           <li>Группа #{cc.attrs.groupName}</li>
           <li>Вариант №#{cc.attrs.taskId}</li>
           <li>
-            <p:button
-              styleClass="ui-button-flat redirect-btn"
-              icon="pi pi-arrow-right"
-              iconPos="right"
-              value="Перейти на основную страницу"
-              action="#{startPageBean.goToMainPage()}"
-            />
+            <h:form>
+              <p:commandButton
+                styleClass="ui-button-flat redirect-btn"
+                icon="pi pi-arrow-right"
+                iconPos="right"
+                value="Перейти на основную страницу"
+                action="#{startPageBean.goToMainPage}"
+              />
+            </h:form>
           </li>
         </ul>
       </nav>
