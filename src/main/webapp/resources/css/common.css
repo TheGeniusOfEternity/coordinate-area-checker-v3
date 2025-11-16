@@ -21,4 +21,17 @@ body, html {
     .ui-component {
         font-family: "Raleway", sans-serif;
     }
+
+    .ui-button-flat.redirect-btn,
+    .ui-button-flat.ui-state-hover.redirect-btn,
+    .ui-button-flat.ui-state-active.redirect-btn {
+        color: var(--accent-color);
+    }
+    .ui-button-flat.ui-state-focus.redirect-btn {
+        border-color: var(--accent-color);
+        box-shadow: none;
+    }
+    .ui-button-flat.ui-state-active.redirect-btn {
+        background-color: var(--secondary-color);
+    }
 }

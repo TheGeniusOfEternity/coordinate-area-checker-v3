@@ -25,7 +25,6 @@ class ClockBean : Serializable {
     }
 
     fun updateDateTimeMillis() {
-        println("LOL")
         this.dateTimeMillis = ZonedDateTime
             .of(LocalDateTime.now(), java.time.ZoneId.systemDefault())
             .toInstant()
