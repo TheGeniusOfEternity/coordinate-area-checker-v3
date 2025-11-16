@@ -13,4 +13,12 @@ body, html {
     padding: 0;
     background-color: var(--bg-color);
     font-family: "Raleway", sans-serif;
+
+    .ui-widget, .ui-widget input, .ui-widget textarea, .ui-widget select {
+        font-family: "Raleway", sans-serif;
+    }
+
+    .ui-component {
+        font-family: "Raleway", sans-serif;
+    }
 }
