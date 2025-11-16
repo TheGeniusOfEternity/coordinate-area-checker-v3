@@ -8,7 +8,6 @@ import java.io.Serializable
 @Named("startPageBean")
 class StartPageBean: Serializable {
     fun goToMainPage(): String {
-        println("go to main page page")
         return "success";
     }
 }

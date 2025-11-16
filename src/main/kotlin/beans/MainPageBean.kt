@@ -1,10 +1,10 @@
 package beans
 
-import jakarta.faces.view.ViewScoped
+import jakarta.enterprise.context.SessionScoped
 import jakarta.inject.Named
 import java.io.Serializable
 
-@ViewScoped
+@SessionScoped
 @Named("mainPageBean")
 class MainPageBean: Serializable {
     private var x: Int? = null
