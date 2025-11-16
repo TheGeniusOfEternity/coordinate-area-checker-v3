@@ -13,9 +13,13 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
+    implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0")
+
+    implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
     implementation("org.glassfish:jakarta.faces:4.0.0")
-    implementation("org.primefaces:primefaces:12.0.0")
-    implementation("org.icefaces:icefaces-ace:4.3.0")
+
+    implementation("org.primefaces:primefaces:13.0.0:jakarta")
+
     implementation("org.hibernate.orm:hibernate-core:6.2.7.Final")
     implementation("org.postgresql:postgresql:42.7.7")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
