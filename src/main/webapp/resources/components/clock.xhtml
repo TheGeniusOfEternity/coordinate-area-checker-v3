@@ -1,19 +1,22 @@
 <ui:component
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:h="http://java.sun.com/jsf/html"
 >
   <cc:interface>
     <cc:attribute name="format" default="dd.mm.yyyy hh.mm.ss" />
     <cc:attribute name="styleClass" required="false" />
     <cc:attribute name="appear" default="true" />
     <cc:attribute name="syncInterval" default="5" />
-    <cc:attribute name="syncListener" required="true" />
   </cc:interface>
   <cc:implementation>
+    <h:inputHidden id="server-time-input" value="#{clockBean.dateTimeMillis}" />
     <p:poll
       interval="#{cc.attrs.syncInterval}"
-      listener="#{clockBean.updateTime()}"
+      listener="#{clockBean.updateDateTimeMillis}"
+      update="server-time-input"
       oncomplete="clock.sync()"
       id="clockPoll_#{cc.clientId}"
     />
@@ -363,7 +366,8 @@
 
       const clock = {
           clocktime: {},
-          serverTime: new Date(parseInt("#{clockBean.dateTimeMillis}")),
+          serverTimeInput: null,
+          serverTime: null,
           clientStartTime: Date.now(),
           dots: document.querySelectorAll('#lcd-clock .dots'),
           dotsState: false,
@@ -406,14 +410,16 @@
               }
               clock.dotsState = !clock.dotsState;
           },
-
           sync: function() {
-              this.serverTime = new Date(parseInt("#{clockBean.dateTimeMillis}"))
-              this.clientStartTime = Date.now();
-              this.updateClock()
+              console.log("time synced")
+              clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
+              clock.serverTime = new Date(parseInt(clock.serverTimeInput.value))
+              clock.clientStartTime = Date.now();
+              clock.updateClock()
           },
-
           init: function() {
+              clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
+              clock.serverTime = new Date(parseInt(clock.serverTimeInput.value))
               clock.toggleDots();
               clock.updateClock();
               setInterval(clock.updateClock, 500);
@@ -421,7 +427,9 @@
           }
       };
 
-      clock.init();
+      document.addEventListener("DOMContentLoaded", function() {
+          clock.init();
+      });
       //]]>
     </script>
 

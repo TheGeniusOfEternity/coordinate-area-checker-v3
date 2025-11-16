@@ -10,23 +10,24 @@ import java.time.ZonedDateTime
 @Named("clockBean")
 @ViewScoped
 class ClockBean : Serializable {
-    private var dateTime: LocalDateTime = LocalDateTime.now()
+    private var dateTimeMillis: Long = 0L
 
-    fun getDateTime(): LocalDateTime {
-        return dateTime
-    }
-
-    fun setDateTime(dateTime: LocalDateTime) {
-        this.dateTime = dateTime
-    }
-
-    fun updateTime() {
-        this.dateTime = LocalDateTime.now()
+    init {
+        updateDateTimeMillis()
     }
 
     fun getDateTimeMillis(): Long {
-        return ZonedDateTime
-            .of(dateTime, java.time.ZoneId.systemDefault())
+        return dateTimeMillis
+    }
+
+    fun setDateTimeMillis(dateTimeMillis: Long) {
+        this.dateTimeMillis = dateTimeMillis
+    }
+
+    fun updateDateTimeMillis() {
+        println("LOL")
+        this.dateTimeMillis = ZonedDateTime
+            .of(LocalDateTime.now(), java.time.ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
     }
