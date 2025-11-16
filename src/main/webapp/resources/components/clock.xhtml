@@ -359,11 +359,24 @@
                 transform: scale(1);
             }
         }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.25;
+            }
+        }
+
+        .lcd-clock {
+            animation: pulse 0.8s ease-in-out infinite;
+        }
     </style>
     <script>
       //<![CDATA[
       "use strict";
-
+      const clockElement = document.getElementById("lcd-clock")
       const clock = {
           clocktime: {},
           serverTimeInput: null,
@@ -411,11 +424,15 @@
               clock.dotsState = !clock.dotsState;
           },
           sync: function() {
-              console.log("time synced")
+              clockElement.classList.add('lcd-clock');
+              setTimeout(() => {
+                  clockElement.classList.remove('lcd-clock')
+              }, 800)
               clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
               clock.serverTime = new Date(parseInt(clock.serverTimeInput.value))
               clock.clientStartTime = Date.now();
               clock.updateClock()
+              console.log("time synced")
           },
           init: function() {
               clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
