@@ -11,7 +11,7 @@
     <cc:attribute name="taskId" required="true" />
   </cc:interface>
   <cc:implementation>
-    <header>
+    <header class="appear">
       <nav>
         <ul>
           <li>#{cc.attrs.studentCredits}</li>
@@ -25,7 +25,7 @@
                 iconPos="right"
                 value="Перейти на основную страницу"
                 action="#{startPageBean.goToMainPage}"
-                onclick="cleanupBeforeNavigation()"
+                onclick="cleanupBeforeNavigation(this)"
               />
             </h:form>
           </li>
@@ -35,9 +35,14 @@
     <style>
         header {
             opacity: 0;
-            animation: fadeIn 0.8s ease 0.5s forwards;
             position: absolute;
             top: 0;
+        }
+        header.appear {
+            animation: fadeIn 0.8s ease 0.5s forwards;
+        }
+        header.disappear {
+            animation: fadeOut 0.8s ease forwards;
         }
         header, nav, ul {
             display: flex;
@@ -75,6 +80,17 @@
                 margin-top: 0;
             }
         }
+
+        @keyframes fadeOut {
+            from  {
+                opacity: 1;
+                margin-top: 0;
+            }
+            to {
+                opacity: 0;
+                margin-top: -1rem;
+            }
+        }
     </style>
     <script>
         function cleanupBeforeNavigation() {
@@ -82,10 +98,9 @@
                 clearInterval(i);
                 clearTimeout(i);
             }
-
-            const oldBody = document.body;
-            const newBody = oldBody.cloneNode(true);
-            oldBody.parentNode.replaceChild(newBody, oldBody);
+            const header = document.querySelector(".appear")
+            header.classList.remove("appear")
+            header.classList.add("disappear")
         }
     </script>
   </cc:implementation>
