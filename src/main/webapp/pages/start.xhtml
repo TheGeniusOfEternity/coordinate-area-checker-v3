@@ -11,7 +11,7 @@
     <h:outputStylesheet library="css" name="start.css" />
     <title>JSF - Стартовая страница</title>
   </h:head>
-  <h:body>
+  <h:body styleClass="zoomed-in">
     <comp:header
       studentCredits="Сафин Максим Владиславович"
       groupName="P3222"
@@ -21,8 +21,12 @@
       styleClass="clock"
     />
     <h:outputScript target="body">
-      document.body.classList.remove("zoomed-in")
-      document.body.classList.add("zoomed-out")
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.body.classList.remove("zoomed-in");
+          document.body.classList.add("zoomed-out");
+        });
+      });
     </h:outputScript>
   </h:body>
 </html>

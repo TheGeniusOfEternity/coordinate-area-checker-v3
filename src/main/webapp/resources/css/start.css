@@ -1,9 +1,9 @@
-body {
-    background-size: 200%;
-}
-
 body.zoomed-out {
     background-size: 100%;
+}
+
+body.zoomed-in {
+    background-size: 200%;
 }
 
 .clock {
