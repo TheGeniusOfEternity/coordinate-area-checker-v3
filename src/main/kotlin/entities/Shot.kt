@@ -6,27 +6,25 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import jakarta.persistence.Temporal
+import jakarta.persistence.TemporalType
 import java.sql.Timestamp
 
 @Entity
 @Table(name = "shots")
-class Shot {
+class Shot(
+    @Column(name = "x", nullable = false) var x: Int,
+    @Column(name = "y", nullable = false) var y: Float,
+    @Column(name = "r", nullable = false) var r: Int,
+    @Column(name = "is_hit", nullable = false) var isHit: Boolean,
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null
 
-    @Column(name = "x", nullable = false)
-    var x: Int? = null
-
-    @Column(name = "y", nullable = false)
-    var y: Float? = null
-
-    @Column(name = "r", nullable = false)
-    var r: Int? = null
-
-    @Column(name = "is_hit", nullable = false)
-    var isHit: Boolean? = null
-
     @Column(name = "hit_time", nullable = false)
-    var hitTime: Timestamp? = null
+    @Temporal(TemporalType.TIMESTAMP)
+    var hitTime: Timestamp = Timestamp(
+        System.currentTimeMillis()
+    )
 }

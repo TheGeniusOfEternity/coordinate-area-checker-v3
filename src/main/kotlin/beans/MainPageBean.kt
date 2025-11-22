@@ -1,12 +1,19 @@
 package beans
 
+import entities.Shot
 import jakarta.enterprise.context.SessionScoped
+import jakarta.inject.Inject
 import jakarta.inject.Named
+import repositories.ShotRepository
 import java.io.Serializable
 
 @SessionScoped
 @Named("mainPageBean")
 class MainPageBean: Serializable {
+
+    @Inject
+    private lateinit var shotRepository: ShotRepository
+
     private var x: Int? = null
     private var y: Float? = null
     private var r: Int? = null
@@ -41,13 +48,23 @@ class MainPageBean: Serializable {
         this.r = r
     }
 
-    fun submitForm(): String {
-        println("X: " + this.x)
-        println("Y: " + this.y)
-        println("R: " + this.r)
+    fun submitForm() {
+        val xVal = x
+        val yVal = y
+        val rVal = r
 
-        // Обработка данных
-        return "success"
+        if (xVal != null && yVal != null && rVal != null) {
+            shotRepository.save(Shot(
+                xVal,
+                yVal,
+                rVal,
+                isHit(xVal, yVal, rVal)
+            ))
+        }
+    }
+
+    fun isHit(x: Int, y: Float, r: Int): Boolean {
+        return true
     }
 
     fun goToStartPage(): String {

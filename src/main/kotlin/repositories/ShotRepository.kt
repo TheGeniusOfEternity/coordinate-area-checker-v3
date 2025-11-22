@@ -5,10 +5,11 @@ import jakarta.persistence.PersistenceContext
 import jakarta.transaction.Transactional
 import entities.Shot
 import jakarta.inject.Singleton
+import java.io.Serializable
 
 @Singleton
 @Transactional
-class ShotRepository {
+class ShotRepository: Serializable {
     @PersistenceContext
     private lateinit var entityManager: EntityManager
 
