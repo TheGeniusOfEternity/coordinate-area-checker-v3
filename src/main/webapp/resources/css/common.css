@@ -62,5 +62,5 @@ body, html {
 }
 
 body {
-    transition: background-size 0.9s ease;
+    transition: background-position 0.9s ease, background-size 0.9s ease;
 }

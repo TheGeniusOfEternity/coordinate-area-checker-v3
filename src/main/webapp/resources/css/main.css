@@ -96,7 +96,8 @@ body {
 }
 
 body.zoomed-in {
-    background-size: 200%;
+    background-size: 400%;
+    background-position: 100% 100%;
 
     .section {
         opacity: 1;
