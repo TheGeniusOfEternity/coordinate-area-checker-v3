@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+  <h:head>
+    <h:outputStylesheet library="css" name="common.css" />
+    <h:outputStylesheet library="css" name="main.css" />
+    <meta charset="UTF-8"/>
+    <title>JSF - Главная страница</title>
+  </h:head>
+  <h:body styleClass="zoomed-in">
+    <div class="section">
+
+    </div>
+    <div class="section">
+      <svg viewBox="0 0 300 300" id="svg-graph">
+        <!-- 1 четверть: треугольник с вершинами (0;R), (0;0), (R,0) -->
+        <polygon points="150,30 150,150 270,150" fill="#b7e4c7" />
+
+        <!-- 3 четверть: квадрат ширины R -->
+        <rect height="120" width="120" x="30" y="150" fill="#b7e4c7" />
+
+        <!-- 4 четверть: четверть круга радиусом R -->
+        <path d="M 150 150
+        L 270 150
+        A 120 120 0 0 1 150 270
+        Z"
+              fill="#b7e4c7">
+        </path>
+
+
+
+        <!-- Оси -->
+        <line x1="0" y1="150" x2="300" y2="150" stroke="black" />
+        <line x1="150" y1="0" x2="150" y2="300" stroke="black" />
+
+        <!-- Стрелки -->
+        <polygon class="arrow" points="150,0 144,15 150,10 156,15" />
+        <polygon class="arrow" points="300,150 285,156 290,150 285,144" />
+
+        <!-- Насечки по Y -->
+        <line x1="145" x2="155" y1="30" y2="30" stroke="black" />
+        <line x1="145" x2="155" y1="90" y2="90" stroke="black" />
+        <line x1="145" x2="155" y1="210" y2="210" stroke="black" />
+        <line x1="145" x2="155" y1="270" y2="270" stroke="black" />
+
+        <!-- Насечки по X -->
+        <line y1="145" y2="155" x1="30" x2="30" stroke="black" />
+        <line y1="145" y2="155" x1="90" x2="90" stroke="black" />
+        <line y1="145" y2="155" x1="210" x2="210" stroke="black" />
+        <line y1="145" y2="155" x1="270" x2="270" stroke="black" />
+
+        <!-- Подписи осей -->
+        <text x="290" y="140" font-size="16" fill="black">x</text>
+        <text x="160" y="10" font-size="16" fill="black">y</text>
+
+        <!-- Подписи R по Y -->
+        <text x="160" y="35" font-size="16" fill="black">R</text>
+        <text x="160" y="95" font-size="16" fill="black">R/2</text>
+        <text x="160" y="215" font-size="16" fill="black">-R/2</text>
+        <text x="160" y="275" font-size="16" fill="black">-R</text>
+
+        <!-- Подписи R по X -->
+        <text y="140" x="20" font-size="16" fill="black">-R</text>
+        <text y="140" x="75" font-size="16" fill="black">-R/2</text>
+        <text y="140" x="200" font-size="16" fill="black">R/2</text>
+        <text y="140" x="265" font-size="16" fill="black">R</text>
+      </svg>
+    </div>
+    <div class="section">
+      <h:form styleClass="form">
+        <div class="input-block">
+          <h:outputText
+            styleClass="label"
+            value="Значение X:"
+          />
+          <div class="options">
+            <ui:repeat
+              var="xValue"
+              value="#{mainPageBean.optionsX}"
+            >
+              <p:commandLink
+                styleClass="#{
+                mainPageBean.x == xValue
+                  ? 'x-option selected'
+                  : 'x-option'
+              }"
+                update="@form"
+                value="#{xValue}"
+                disabled="#{mainPageBean.x == xValue ? true : false}"
+                action="#{mainPageBean.setX(xValue)}"
+              />
+            </ui:repeat>
+          </div>
+        </div>
+
+        <!-- Ввод Y -->
+        <div class="input-block">
+          <p:outputLabel
+            value="Значение Y:"
+            for="yInput"
+          />
+          <p:inputNumber
+            id="yInput"
+            value="#{mainPageBean.y}"
+            minValue="-3"
+            maxValue="3"
+            decimalPlaces="2"
+            styleClass="input"
+          />
+        </div>
+
+        <!-- Ввод R -->
+        <div class="input-block">
+          <p:outputLabel
+            value="Значение R:"
+            for="rInput"
+          />
+          <p:selectOneMenu id="rInput" value="#{mainPageBean.r}">
+            <f:selectItem itemLabel="1" itemValue="1" />
+            <f:selectItem itemLabel="2" itemValue="2" />
+            <f:selectItem itemLabel="3" itemValue="3" />
+            <f:selectItem itemLabel="4" itemValue="4" />
+            <f:selectItem itemLabel="5" itemValue="5" />
+          </p:selectOneMenu>
+        </div>
+
+        <div class="buttons">
+          <p:commandButton
+            value="Отправить"
+            styleClass="ui-button"
+            action="#{mainPageBean.submitForm}"
+          />
+          <p:commandButton
+            styleClass="ui-button-outlined redirect-btn"
+            icon="pi pi-arrow-left"
+            value="Вернуться на стартовую страницу"
+            action="#{mainPageBean.goToStartPage}"
+            onclick="cleanupBeforeNavigation()"
+          />
+        </div>
+      </h:form>
+    </div>
+    <script>
+        function cleanupBeforeNavigation() {
+            for (let i = 1; i &lt; 10000; i++) {
+                clearInterval(i);
+                clearTimeout(i);
+            }
+        }
+    </script>
+    <h:outputScript target="body">
+      document.body.classList.remove("zoomed-out")
+      document.body.classList.add("zoomed-in")
+    </h:outputScript>
+  </h:body>
+</html>

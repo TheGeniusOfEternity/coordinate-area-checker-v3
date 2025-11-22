@@ -11,7 +11,10 @@
 body, html {
     margin: 0;
     padding: 0;
-    background-color: var(--bg-color);
+    height: 100vh;
+    background-image: url("#{resource['images/start-background.jpeg']}");
+    background-repeat: no-repeat;
+    background-position: center;
     font-family: "Raleway", sans-serif;
 
     .ui-widget, .ui-widget input, .ui-widget textarea, .ui-widget select {
@@ -22,16 +25,42 @@ body, html {
         font-family: "Raleway", sans-serif;
     }
 
-    .ui-button-flat.redirect-btn,
-    .ui-button-flat.ui-state-hover.redirect-btn,
-    .ui-button-flat.ui-state-active.redirect-btn {
-        color: var(--accent-color);
+    .ui-button-flat,
+    .ui-button-flat.ui-state-hover,
+    .ui-button-flat.ui-state-active,
+    .ui-button-outlined,
+    .ui-button-outlined.ui-state-hover,
+    .ui-button-outlined.ui-state-active {
+        color: var(--accent-color) !important;
     }
-    .ui-button-flat.ui-state-focus.redirect-btn {
-        border-color: var(--accent-color);
-        box-shadow: none;
+
+    .ui-button,
+    .ui-button.ui-state-hover,
+    .ui-button.ui-state-active {
+        background-color: var(--accent-color) !important;;
     }
-    .ui-button-flat.ui-state-active.redirect-btn {
-        background-color: var(--secondary-color);
+
+    .ui-button-outlined,
+    .ui-button-flat,
+    .ui-button-flat.ui-state-hover,
+    .ui-button-outlined.ui-state-hover {
+        background-color: transparent !important;
     }
+
+    .ui-button.ui-state-focus,
+    .ui-button-flat.ui-state-focus,
+    .ui-button-outlined.ui-state-focus {
+        border-color: var(--accent-color) !important;
+        box-shadow: none !important;
+    }
+
+    .ui-button.ui-state-active,
+    .ui-button-flat.ui-state-active,
+    .ui-button-outlined.ui-state-active {
+        background-color: var(--secondary-color) !important;
+    }
+}
+
+body {
+    transition: background-position 0.9s ease, background-size 0.9s ease;
 }

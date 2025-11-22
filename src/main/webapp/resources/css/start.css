@@ -1,9 +1,11 @@
-body {
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 200%;
-    animation: zoomOut 0.9s ease 0.1s forwards;
+body.zoomed-out {
+    background-size: 100%;
+    background-position: 50% 50%;
+}
+
+body.zoomed-in {
+    background-size: 400%;
+    background-position: 50% 50%;
 }
 
 .clock {
@@ -11,13 +13,4 @@ body {
     position: absolute;
     top: 15%;
     left: 40%;
-}
-
-@keyframes zoomOut {
-    from {
-        background-size: 200%;
-    }
-    to {
-        background-size: 100%;
-    }
 }

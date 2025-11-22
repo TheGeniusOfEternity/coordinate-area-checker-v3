@@ -17,7 +17,7 @@
       interval="#{cc.attrs.syncInterval}"
       listener="#{clockBean.updateDateTimeMillis}"
       update="server-time-input"
-      oncomplete="clock.sync()"
+      oncomplete="window.clock.sync()"
       id="clockPoll_#{cc.clientId}"
     />
     <div class="container #{cc.attrs.styleClass} #{cc.attrs.appear ? 'animated' : ''}">
@@ -376,34 +376,39 @@
     <script>
       //<![CDATA[
       "use strict";
-      const clockElement = document.getElementById("lcd-clock")
-      const clock = {
+      if (typeof window.clock !== 'undefined') {
+          window.clock.stop();
+      }
+
+      window.clock = {
           clocktime: {},
           serverTimeInput: null,
           serverTime: null,
           clientStartTime: Date.now(),
           dots: document.querySelectorAll('#lcd-clock .dots'),
           dotsState: false,
+          updateInterval: null,
+          toggleInterval: null,
           getCurrentTime: function () {
               const elapsed = Date.now() - this.clientStartTime;
               return new Date(this.serverTime.getTime() + elapsed);
           },
           updateClock: function (){
-              const time = clock.getCurrentTime()
-              clock.clocktime.hour   = time.getHours();
-              clock.clocktime.minute = time.getMinutes();
-              clock.clocktime.second = time.getSeconds();
+              const time = window.clock.getCurrentTime()
+              window.clock.clocktime.hour   = time.getHours();
+              window.clock.clocktime.minute = time.getMinutes();
+              window.clock.clocktime.second = time.getSeconds();
 
-              for (const timeUnit in clock.clocktime) {
-                  clock.clocktime[timeUnit] = clock.clocktime[timeUnit].toString();
-                  if (clock.clocktime[timeUnit].length === 1) {
-                      clock.clocktime[timeUnit] = '0'+clock.clocktime[timeUnit];
+              for (const timeUnit in window.clock.clocktime) {
+                  window.clock.clocktime[timeUnit] = window.clock.clocktime[timeUnit].toString();
+                  if (window.clock.clocktime[timeUnit].length === 1) {
+                      window.clock.clocktime[timeUnit] = '0'+window.clock.clocktime[timeUnit];
                   }
-                  clock.clocktime[timeUnit] = clock.clocktime[timeUnit].split('');
+                  window.clock.clocktime[timeUnit] = window.clock.clocktime[timeUnit].split('');
 
                   for (let i = 0; i < 2; i++) {
                       const selector = '#lcd-clock .'+timeUnit+'.digit-'+(i+1);
-                      const className = 'number-is-'+clock.clocktime[timeUnit][i];
+                      const className = 'number-is-'+window.clock.clocktime[timeUnit][i];
                       for (let j = 0; j < 10; j++) {
                           const oldClass = 'number-is-'+j;
                           document.querySelector(selector).classList.remove(oldClass);
@@ -413,40 +418,44 @@
               }
           },
           toggleDots: function() {
-              const num_dots = clock.dots.length;
+              const num_dots = window.clock.dots.length;
               for (let i = 0; i < num_dots; i++) {
-                  if (!clock.dotsState) {
-                      clock.dots[i].classList.add('lcd-element-active');
+                  if (!window.clock.dotsState) {
+                      window.clock.dots[i].classList.add('lcd-element-active');
                   } else {
-                      clock.dots[i].classList.remove('lcd-element-active');
+                      window.clock.dots[i].classList.remove('lcd-element-active');
                   }
               }
-              clock.dotsState = !clock.dotsState;
+              window.clock.dotsState = !window.clock.dotsState;
           },
           sync: function() {
-              clockElement.classList.add('lcd-clock');
+              document.getElementById("lcd-clock").classList.add('lcd-clock');
               setTimeout(() => {
-                  clockElement.classList.remove('lcd-clock')
+                  document.getElementById("lcd-clock").classList.remove('lcd-clock')
               }, 800)
-              clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
-              clock.serverTime = new Date(parseInt(clock.serverTimeInput.value))
-              clock.clientStartTime = Date.now();
-              clock.updateClock()
+              window.clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
+              window.clock.serverTime = new Date(parseInt(window.clock.serverTimeInput.value))
+              window.clock.clientStartTime = Date.now();
+              window.clock.updateClock()
               console.log("time synced")
           },
+          stop: function() {
+              if (window.clock.updateInterval) clearInterval(window.clock.updateInterval);
+              if (window.clock.toggleInterval) clearInterval(window.clock.toggleInterval);
+              window.clock.updateInterval = null;
+              window.clock.toggleInterval = null;
+          },
           init: function() {
-              clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
-              clock.serverTime = new Date(parseInt(clock.serverTimeInput.value))
-              clock.toggleDots();
-              clock.updateClock();
-              setInterval(clock.updateClock, 500);
-              setInterval(clock.toggleDots, 800);
+              window.clock.serverTimeInput = document.getElementById("#{cc.clientId}:server-time-input")
+              window.clock.serverTime = new Date(parseInt(window.clock.serverTimeInput.value))
+              window.clock.toggleDots();
+              window.clock.updateClock();
+              setInterval(window.clock.updateClock, 500);
+              setInterval(window.clock.toggleDots, 800);
           }
       };
 
-      document.addEventListener("DOMContentLoaded", function() {
-          clock.init();
-      });
+      window.clock.init();
       //]]>
     </script>
 

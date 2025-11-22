@@ -3,6 +3,7 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:cc="http://xmlns.jcp.org/jsf/composite"
   xmlns:p="http://primefaces.org/ui"
+  xmlns:h="jakarta.faces.html"
 >
   <cc:interface>
     <cc:attribute name="studentCredits" required="true" />
@@ -10,20 +11,23 @@
     <cc:attribute name="taskId" required="true" />
   </cc:interface>
   <cc:implementation>
-    <header>
+    <header class="appear">
       <nav>
         <ul>
           <li>#{cc.attrs.studentCredits}</li>
           <li>Группа #{cc.attrs.groupName}</li>
           <li>Вариант №#{cc.attrs.taskId}</li>
           <li>
-            <p:button
-              styleClass="ui-button-flat redirect-btn"
-              icon="pi pi-arrow-right"
-              iconPos="right"
-              value="Перейти на основную страницу"
-              action="#{startPageBean.goToMainPage()}"
-            />
+            <h:form>
+              <p:commandButton
+                styleClass="ui-button-flat redirect-btn"
+                icon="pi pi-arrow-right"
+                iconPos="right"
+                value="Перейти на основную страницу"
+                action="#{startPageBean.goToMainPage}"
+                onclick="cleanupBeforeNavigation(this)"
+              />
+            </h:form>
           </li>
         </ul>
       </nav>
@@ -31,9 +35,14 @@
     <style>
         header {
             opacity: 0;
-            animation: fadeIn 0.8s ease 0.5s forwards;
             position: absolute;
             top: 0;
+        }
+        header.appear {
+            animation: fadeIn 0.8s ease 0.5s forwards;
+        }
+        header.disappear {
+            animation: fadeOut 0.8s ease forwards;
         }
         header, nav, ul {
             display: flex;
@@ -71,6 +80,28 @@
                 margin-top: 0;
             }
         }
+
+        @keyframes fadeOut {
+            from  {
+                opacity: 1;
+                margin-top: 0;
+            }
+            to {
+                opacity: 0;
+                margin-top: -1rem;
+            }
+        }
     </style>
+    <script>
+        function cleanupBeforeNavigation() {
+            for (let i = 1; i &lt; 10000; i++) {
+                clearInterval(i);
+                clearTimeout(i);
+            }
+            const header = document.querySelector(".appear")
+            header.classList.remove("appear")
+            header.classList.add("disappear")
+        }
+    </script>
   </cc:implementation>
 </ui:component>
