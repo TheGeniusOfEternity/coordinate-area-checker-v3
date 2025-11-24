@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.2.20"
+    kotlin("plugin.allopen") version "1.9.0"
     war
 }
 
@@ -25,6 +26,11 @@ dependencies {
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+}
+
+allOpen {
+    annotation("jakarta.enterprise.context.ApplicationScoped")
+    annotation("jakarta.transaction.Transactional")
 }
 
 tasks.test {

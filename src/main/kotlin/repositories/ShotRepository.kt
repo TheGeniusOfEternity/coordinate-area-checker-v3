@@ -1,13 +1,13 @@
 package repositories
 
+import entities.Shot
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jakarta.transaction.Transactional
-import entities.Shot
-import jakarta.inject.Singleton
 import java.io.Serializable
 
-@Singleton
+@ApplicationScoped
 @Transactional
 class ShotRepository: Serializable {
     @PersistenceContext
@@ -15,31 +15,12 @@ class ShotRepository: Serializable {
 
     fun save(shot: Shot): Shot {
         entityManager.persist(shot)
+        entityManager.flush()
         return shot
     }
 
     fun findAll(): List<Shot> {
-        val query = entityManager.createQuery(
-            "SELECT shot FROM Shot shot",
-            Shot::class.java
-        )
+        val query = entityManager.createQuery("SELECT s FROM Shot s", Shot::class.java)
         return query.resultList
-    }
-
-    fun findById(id: Long): Shot? {
-        return entityManager.find(
-            Shot::class.java,
-            id
-        )
-    }
-
-    fun delete(id: Long) {
-        val shot = entityManager.find(
-            Shot::class.java,
-            id
-        )
-        if (shot != null) {
-            entityManager.remove(shot)
-        }
     }
 }

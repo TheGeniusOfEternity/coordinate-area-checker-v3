@@ -1,30 +1,42 @@
 package entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import jakarta.persistence.Temporal
-import jakarta.persistence.TemporalType
+import jakarta.persistence.*
 import java.sql.Timestamp
 
 @Entity
 @Table(name = "shots")
-class Shot(
-    @Column(name = "x", nullable = false) var x: Int,
-    @Column(name = "y", nullable = false) var y: Float,
-    @Column(name = "r", nullable = false) var r: Int,
-    @Column(name = "is_hit", nullable = false) var isHit: Boolean,
-) {
+class Shot {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shots_seq")
+    @SequenceGenerator(name = "shots_seq", sequenceName = "shots_SEQ", allocationSize = 50)
+    @Column(name = "id")
     var id: Int? = null
+
+    @Column(name = "x", nullable = false)
+    var x: Int = 0
+
+    @Column(name = "y", nullable = false)
+    var y: Float = 0f
+
+    @Column(name = "r", nullable = false)
+    var r: Int = 0
+
+    @Column(name = "is_hit", nullable = false)
+    var isHit: Boolean = false
 
     @Column(name = "hit_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    var hitTime: Timestamp = Timestamp(
-        System.currentTimeMillis()
-    )
+    var hitTime: Timestamp = Timestamp(System.currentTimeMillis())
+
+    // Конструктор без аргументов (требуется Hibernate)
+    constructor()
+
+    // Конструктор с параметрами (для удобства)
+    constructor(x: Int, y: Float, r: Int, isHit: Boolean) {
+        this.x = x
+        this.y = y
+        this.r = r
+        this.isHit = isHit
+        this.hitTime = Timestamp(System.currentTimeMillis())
+    }
 }
