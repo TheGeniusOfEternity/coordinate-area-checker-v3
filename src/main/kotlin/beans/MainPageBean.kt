@@ -64,6 +64,9 @@ class MainPageBean: Serializable {
     }
 
     fun isHit(x: Int, y: Float, r: Int): Boolean {
+        if (x <= 0 && y <= 0) return x <= -r && y <= -r
+        if (x >= 0 && y >= 0) return x + y <= r
+        if (x > 0 && y < 0) return x * x + y * y <= r * r
         return true
     }
 
