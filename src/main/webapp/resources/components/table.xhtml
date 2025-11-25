@@ -1,0 +1,55 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:h="http://java.sun.com/jsf/html"
+>
+  <cc:interface>
+    <cc:attribute name="id" required="true" />
+    <cc:attribute name="separator" default=";" />
+    <cc:attribute name="striped" default="false" />
+    <cc:attribute name="sortable" default="false" />
+    <cc:attribute name="pageSize" default="10" />
+  </cc:interface>
+  <cc:implementation>
+    <p:dataTable
+      styleClass="table"
+      id="#{cc.attrs.id}"
+      var="shot"
+      value="#{tableBean.shots}"
+      rows="#{cc.attrs.pageSize}"
+      paginator="true"
+      paginatorPosition="bottom"
+      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+    >
+      <p:column headerText="ID">
+        <h:outputText value="#{shot.id}" />
+      </p:column>
+      <p:column headerText="X">
+        <h:outputText value="#{shot.x}" />
+      </p:column>
+      <p:column headerText="Y">
+        <h:outputText value="#{shot.y}" />
+      </p:column>
+      <p:column headerText="R">
+        <h:outputText value="#{shot.r}" />
+      </p:column>
+      <p:column headerText="Статус">
+        <h:outputText value="#{shot.hit}" />
+      </p:column>
+      <p:column headerText="Время">
+        <h:outputText value="#{shot.hitTime}" />
+      </p:column>
+    </p:dataTable>
+    <style>
+      .table {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+      }
+    </style>
+  </cc:implementation>
+</ui:component>

@@ -1,4 +1,4 @@
-package beans
+package beans.pages
 
 import jakarta.faces.view.ViewScoped
 import jakarta.inject.Named

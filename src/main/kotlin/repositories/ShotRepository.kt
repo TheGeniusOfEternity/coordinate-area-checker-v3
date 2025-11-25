@@ -19,7 +19,7 @@ class ShotRepository: Serializable {
         return shot
     }
 
-    fun findAll(): List<Shot> {
+    fun getAll(): List<Shot> {
         val query = entityManager.createQuery("SELECT s FROM Shot s", Shot::class.java)
         return query.resultList
     }

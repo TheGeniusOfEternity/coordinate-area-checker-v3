@@ -1,11 +1,11 @@
-package beans
+package beans.components
 
 import jakarta.faces.view.ViewScoped
 import jakarta.inject.Named
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
-
 
 @Named("clockBean")
 @ViewScoped
@@ -26,7 +26,7 @@ class ClockBean : Serializable {
 
     fun updateDateTimeMillis() {
         this.dateTimeMillis = ZonedDateTime
-            .of(LocalDateTime.now(), java.time.ZoneId.systemDefault())
+            .of(LocalDateTime.now(), ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
     }

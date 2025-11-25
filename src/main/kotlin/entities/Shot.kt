@@ -28,10 +28,8 @@ class Shot {
     @Temporal(TemporalType.TIMESTAMP)
     var hitTime: Timestamp = Timestamp(System.currentTimeMillis())
 
-    // Конструктор без аргументов (требуется Hibernate)
     constructor()
 
-    // Конструктор с параметрами (для удобства)
     constructor(x: Int, y: Float, r: Int, isHit: Boolean) {
         this.x = x
         this.y = y

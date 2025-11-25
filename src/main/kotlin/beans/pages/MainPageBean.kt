@@ -1,4 +1,4 @@
-package beans
+package beans.pages
 
 import entities.Shot
 import jakarta.enterprise.context.SessionScoped
@@ -54,12 +54,14 @@ class MainPageBean: Serializable {
         val rVal = r
 
         if (xVal != null && yVal != null && rVal != null) {
-            shotRepository.save(Shot(
-                xVal,
-                yVal,
-                rVal,
-                isHit(xVal, yVal, rVal)
-            ))
+            shotRepository.save(
+                Shot(
+                    xVal,
+                    yVal,
+                    rVal,
+                    isHit(xVal, yVal, rVal)
+                )
+            )
         }
     }
 
