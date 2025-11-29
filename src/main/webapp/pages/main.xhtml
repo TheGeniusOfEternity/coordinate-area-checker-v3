@@ -19,7 +19,7 @@
     <h:outputStylesheet library="css" name="main.css" />
   </h:head>
   <h:body styleClass="zoomed-in">
-    <div class="section">
+    <h:panelGroup id="svgWrapper" styleClass="section">
       <svg viewBox="0 0 300 300" id="svg-graph">
         <!-- 1 четверть: треугольник с вершинами (0;R), (0;0), (R,0) -->
         <polygon points="150,30 150,150 270,150" fill="#b7e4c7" />
@@ -70,8 +70,30 @@
         <text y="140" x="75" font-size="16" fill="black">-R/2</text>
         <text y="140" x="200" font-size="16" fill="black">R/2</text>
         <text y="140" x="265" font-size="16" fill="black">R</text>
+
+        <ui:fragment
+          rendered="#{mainPageBean.r != null}"
+        >
+          <ui:repeat var="shot" value="#{mainPageBean.shots}">
+            <!--
+            Coordinate transformation:
+            - SVG viewBox: 0 0 300 300 (center at 150, 150)
+            - Scale: 120 pixels = R units
+            - Database coordinates: (x, y) in range [-R, R]
+            - SVG pixel formula:
+              pixelX = 150 + (x * 120 / R)
+              pixelY = 150 - (y * 120 / R)  [negative because SVG Y increases downward]
+            -->
+            <circle
+              cx="#{150 + (shot.x * 120 / mainPageBean.r)}"
+              cy="#{150 - (shot.y * 120 / mainPageBean.r)}"
+              r="4"
+              class="shot-dot #{shot.hit ? 'shot-dot-hit' : 'shot-dot-miss'}"
+            />
+          </ui:repeat>
+        </ui:fragment>
       </svg>
-    </div>
+    </h:panelGroup>
     <div class="section">
       <h:form styleClass="form">
         <div class="input-block">
@@ -133,7 +155,7 @@
             <f:selectItem itemLabel="3" itemValue="3" />
             <f:selectItem itemLabel="4" itemValue="4" />
             <f:selectItem itemLabel="5" itemValue="5" />
-            <p:ajax update="@form" />
+            <p:ajax update="@form,svgWrapper" />
           </p:selectOneMenu>
         </div>
 
