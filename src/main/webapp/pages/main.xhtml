@@ -157,10 +157,8 @@
                 clearTimeout(i);
             }
         }
+        document.body.classList.remove("zoomed-out")
+        document.body.classList.add("zoomed-in")
     </script>
-    <h:outputScript target="body">
-      document.body.classList.remove("zoomed-out")
-      document.body.classList.add("zoomed-in")
-    </h:outputScript>
   </h:body>
 </html>
