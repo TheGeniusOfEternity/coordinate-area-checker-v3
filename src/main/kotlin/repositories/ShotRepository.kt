@@ -13,14 +13,22 @@ class ShotRepository: Serializable {
     @PersistenceContext
     private lateinit var entityManager: EntityManager
 
-    fun save(shot: Shot): Shot {
-        entityManager.persist(shot)
-        entityManager.flush()
-        return shot
+    fun save(shot: Shot): Shot? {
+        try {
+            entityManager.persist(shot)
+            entityManager.flush()
+            return shot
+        } catch (_: Exception) {
+            return null
+        }
     }
 
-    fun findAll(): List<Shot> {
-        val query = entityManager.createQuery("SELECT s FROM Shot s", Shot::class.java)
-        return query.resultList
+    fun getAll(): List<Shot>? {
+        try {
+            val query = entityManager.createQuery("SELECT s FROM Shot s", Shot::class.java)
+            return query.resultList
+        } catch (_: Exception) {
+            return null
+        }
     }
 }

@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: wildflydb
+      POSTGRES_USER: wildfly
+      POSTGRES_PASSWORD: wildfly
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  wildfly:
+    build: .
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: wildflydb
+      DB_USER: wildfly
+      DB_PASS: wildfly
+
+volumes:
+  postgres_data:

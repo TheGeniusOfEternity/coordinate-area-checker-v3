@@ -2,20 +2,23 @@
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
   xmlns:p="http://primefaces.org/ui"
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:comp="http://xmlns.jcp.org/jsf/composite/components"
 >
   <h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="#{request.contextPath}/resources/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="#{request.contextPath}/resources/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="#{request.contextPath}/resources/images/favicon-16x16.png" />
+    <link rel="manifest" href="#{request.contextPath}/resources/site.webmanifest" />
+    <title>JSF - Главная страница</title>
     <h:outputStylesheet library="css" name="common.css" />
     <h:outputStylesheet library="css" name="main.css" />
-    <meta charset="UTF-8"/>
-    <title>JSF - Главная страница</title>
   </h:head>
   <h:body styleClass="zoomed-in">
-    <div class="section">
-
-    </div>
     <div class="section">
       <svg viewBox="0 0 300 300" id="svg-graph">
         <!-- 1 четверть: треугольник с вершинами (0;R), (0;0), (R,0) -->
@@ -31,8 +34,6 @@
         Z"
               fill="#b7e4c7">
         </path>
-
-
 
         <!-- Оси -->
         <line x1="0" y1="150" x2="300" y2="150" stroke="black" />
@@ -111,7 +112,9 @@
             maxValue="3"
             decimalPlaces="2"
             styleClass="input"
-          />
+          >
+            <p:ajax update="@form" />
+          </p:inputNumber>
         </div>
 
         <!-- Ввод R -->
@@ -120,12 +123,17 @@
             value="Значение R:"
             for="rInput"
           />
-          <p:selectOneMenu id="rInput" value="#{mainPageBean.r}">
+          <p:selectOneMenu
+            id="rInput"
+            value="#{mainPageBean.r}"
+            styleClass="r-input"
+          >
             <f:selectItem itemLabel="1" itemValue="1" />
             <f:selectItem itemLabel="2" itemValue="2" />
             <f:selectItem itemLabel="3" itemValue="3" />
             <f:selectItem itemLabel="4" itemValue="4" />
             <f:selectItem itemLabel="5" itemValue="5" />
+            <p:ajax update="@form" />
           </p:selectOneMenu>
         </div>
 
@@ -133,7 +141,14 @@
           <p:commandButton
             value="Отправить"
             styleClass="ui-button"
+            update="tableWrapper"
             action="#{mainPageBean.submitForm}"
+            process="@form"
+            disabled="#{
+              mainPageBean.x == null ||
+              mainPageBean.y == null ||
+              mainPageBean.r == null
+            }"
           />
           <p:commandButton
             styleClass="ui-button-outlined redirect-btn"
@@ -144,6 +159,15 @@
           />
         </div>
       </h:form>
+      <h:panelGroup id="tableWrapper" layout="block">
+        <comp:table
+          id="shotsTable"
+          pageSize="7"
+          shots="#{mainPageBean.shots}"
+          sortable="true"
+          striped="true"
+        />
+      </h:panelGroup>
     </div>
     <script>
         function cleanupBeforeNavigation() {
@@ -152,10 +176,8 @@
                 clearTimeout(i);
             }
         }
+        document.body.classList.remove("zoomed-out")
+        document.body.classList.add("zoomed-in")
     </script>
-    <h:outputScript target="body">
-      document.body.classList.remove("zoomed-out")
-      document.body.classList.add("zoomed-in")
-    </h:outputScript>
   </h:body>
 </html>

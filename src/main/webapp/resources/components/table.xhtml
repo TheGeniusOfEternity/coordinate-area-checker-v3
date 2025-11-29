@@ -1,0 +1,95 @@
+<ui:component
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:h="http://java.sun.com/jsf/html"
+>
+  <cc:interface>
+    <cc:attribute name="id" required="true" />
+    <cc:attribute name="separator" default=";" />
+    <cc:attribute name="striped" default="false" />
+    <cc:attribute name="sortable" default="false" />
+    <cc:attribute name="pageSize" default="10" />
+    <cc:attribute name="shots" required="true" />
+  </cc:interface>
+  <cc:implementation>
+    <p:dataTable
+      allowUnsorting="true"
+      styleClass="table"
+      id="#{cc.attrs.id}"
+      var="shot"
+      value="#{cc.attrs.shots}"
+      rows="#{cc.attrs.pageSize}"
+      paginator="true"
+      paginatorPosition="bottom"
+      sortMode="single"
+      stripedRows="#{cc.attrs.striped}"
+      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+    >
+      <p:column
+        headerText="ID"
+        style="width: 10%"
+        sortBy="#{shot.id}"
+        sortable="#{cc.attrs.sortable}"
+      >
+        <h:outputText value="#{shot.id}" />
+      </p:column>
+      <p:column
+        headerText="X"
+        style="width: 10%"
+        sortBy="#{shot.x}"
+        sortable="#{cc.attrs.sortable}"
+      >
+        <h:outputText value="#{shot.x}" />
+      </p:column>
+      <p:column
+        headerText="Y"
+        style="width: 10%"
+        sortBy="#{shot.y}"
+        sortable="#{cc.attrs.sortable}"
+      >
+        <h:outputText value="#{shot.y}" />
+      </p:column>
+      <p:column
+        style="width: 10%"
+        headerText="R"
+        sortBy="#{shot.r}"
+        sortable="#{cc.attrs.sortable}"
+      >
+        <h:outputText value="#{shot.r}" />
+      </p:column>
+      <p:column
+        headerText="Статус"
+        style="width: 30%"
+        sortBy="#{shot.hit}"
+        sortable="#{cc.attrs.sortable}"
+      >
+        <h:outputText value="#{shot.hit ? 'Попадание' : 'Промах'}" />
+      </p:column>
+      <p:column
+        headerText="Время"
+        style="width: 30%"
+        sortBy="#{shot.hitTime}"
+        sortable="#{cc.attrs.sortable}"
+      >
+        <h:outputText value="#{shot.hitTime}">
+          <f:convertDateTime
+            pattern="yyyy-MM-dd HH:mm"
+            timeZone="#{mainPageBean.currentTimeZone}"
+          />
+        </h:outputText>
+      </p:column>
+    </p:dataTable>
+    <style>
+      .table {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+      }
+    </style>
+  </cc:implementation>
+</ui:component>
