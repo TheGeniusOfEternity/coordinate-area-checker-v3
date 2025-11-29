@@ -28,7 +28,6 @@ class MainPageBean: Serializable {
     }
 
     fun getShots(): List<Shot> {
-        refreshShots()
         return shots
     }
 
