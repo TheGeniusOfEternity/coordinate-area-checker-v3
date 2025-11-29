@@ -81,7 +81,6 @@ class MainPageBean: Serializable {
     fun refreshShots() {
         val fetchedShots = shotRepository.getAll()
         if (fetchedShots != null) shots = fetchedShots
-        println("refresh was called, current size is ${shots.size}")
     }
 
     fun isHit(x: Int, y: Float, r: Int): Boolean {
