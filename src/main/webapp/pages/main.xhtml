@@ -8,16 +8,24 @@
   xmlns:comp="http://xmlns.jcp.org/jsf/composite/components"
 >
   <h:head>
-    <h:outputStylesheet library="css" name="common.css" />
-    <h:outputStylesheet library="css" name="main.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="#{resource['images/apple-touch-icon.png']}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="#{resource['images/favicon-32x32.png']}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="#{resource['images/favicon-16x16.png']}" />
+    <link rel="manifest" href="#{resource['site.webmanifest']}" />
     <meta charset="UTF-8"/>
     <title>JSF - Главная страница</title>
+    <h:outputStylesheet library="css" name="common.css" />
+    <h:outputStylesheet library="css" name="main.css" />
   </h:head>
   <h:body styleClass="zoomed-in">
     <div class="section">
-      <comp:table
-        id="shots"
-      />
+      <h:panelGroup id="tableWrapper" layout="block">
+        <comp:table
+          id="shotsTable"
+          pageSize="8"
+          shots="#{mainPageBean.shots}"
+        />
+      </h:panelGroup>
       <h:form styleClass="form">
         <div class="input-block">
           <h:outputText
@@ -83,7 +91,9 @@
           <p:commandButton
             value="Отправить"
             styleClass="ui-button"
+            update="tableWrapper"
             action="#{mainPageBean.submitForm}"
+            process="@form"
           />
           <p:commandButton
             styleClass="ui-button-outlined redirect-btn"
@@ -110,8 +120,6 @@
         Z"
               fill="#b7e4c7">
         </path>
-
-
 
         <!-- Оси -->
         <line x1="0" y1="150" x2="300" y2="150" stroke="black" />
