@@ -76,7 +76,10 @@
         sortable="#{cc.attrs.sortable}"
       >
         <h:outputText value="#{shot.hitTime}">
-          <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+          <f:convertDateTime
+            pattern="yyyy-MM-dd HH:mm"
+            timeZone="#{mainPageBean.currentTimeZone}"
+          />
         </h:outputText>
       </p:column>
     </p:dataTable>

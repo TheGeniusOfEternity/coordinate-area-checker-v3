@@ -7,6 +7,10 @@ import jakarta.inject.Inject
 import jakarta.inject.Named
 import repositories.ShotRepository
 import java.io.Serializable
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.TimeZone
 
 @ViewScoped
 @Named("mainPageBean")
@@ -91,5 +95,9 @@ class MainPageBean: Serializable {
 
     fun goToStartPage(): String {
         return "success"
+    }
+
+    fun getCurrentTimeZone(): TimeZone {
+        return TimeZone.getDefault()
     }
 }
