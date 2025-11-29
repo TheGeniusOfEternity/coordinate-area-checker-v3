@@ -7,9 +7,6 @@ import jakarta.inject.Inject
 import jakarta.inject.Named
 import repositories.ShotRepository
 import java.io.Serializable
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.TimeZone
 
 @ViewScoped
@@ -87,10 +84,16 @@ class MainPageBean: Serializable {
     }
 
     fun isHit(x: Int, y: Float, r: Int): Boolean {
-        if (x <= 0 && y <= 0) return x <= -r && y <= -r
-        if (x >= 0 && y >= 0) return x + y <= r
-        if (x > 0 && y < 0) return x * x + y * y <= r * r
-        return true
+        return when {
+            // Triangle
+            x >= 0 && y >= 0 -> x + y <= r
+            // Empty
+            x <= 0 && y >= 0 -> false
+            // Square
+            x <= 0 && y <= 0 -> x >= -r && y >= -r
+            // Circle
+            else -> x * x + y * y <= r * r
+        }
     }
 
     fun goToStartPage(): String {

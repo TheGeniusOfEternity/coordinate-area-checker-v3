@@ -8,7 +8,7 @@ import java.sql.Timestamp
 class Shot {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shots_seq")
-    @SequenceGenerator(name = "shots_seq", sequenceName = "shots_SEQ", allocationSize = 50)
+    @SequenceGenerator(name = "shots_seq", sequenceName = "shots_id_seq", allocationSize = 1)
     @Column(name = "id")
     var id: Int? = null
 

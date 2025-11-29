@@ -21,13 +21,13 @@
   <h:body styleClass="zoomed-in">
     <h:panelGroup id="svgWrapper" styleClass="section">
       <svg viewBox="0 0 300 300" id="svg-graph">
-        <!-- 1 четверть: треугольник с вершинами (0;R), (0;0), (R,0) -->
+        <!-- I: Triangle -->
         <polygon points="150,30 150,150 270,150" fill="#b7e4c7" />
 
-        <!-- 3 четверть: квадрат ширины R -->
+        <!-- II: Square -->
         <rect height="120" width="120" x="30" y="150" fill="#b7e4c7" />
 
-        <!-- 4 четверть: четверть круга радиусом R -->
+        <!-- III: Arc -->
         <path d="M 150 150
         L 270 150
         A 120 120 0 0 1 150 270
@@ -35,37 +35,37 @@
               fill="#b7e4c7">
         </path>
 
-        <!-- Оси -->
+        <!-- Axises -->
         <line x1="0" y1="150" x2="300" y2="150" stroke="black" />
         <line x1="150" y1="0" x2="150" y2="300" stroke="black" />
 
-        <!-- Стрелки -->
+        <!-- Arrows -->
         <polygon class="arrow" points="150,0 144,15 150,10 156,15" />
         <polygon class="arrow" points="300,150 285,156 290,150 285,144" />
 
-        <!-- Насечки по Y -->
+        <!-- Y marks -->
         <line x1="145" x2="155" y1="30" y2="30" stroke="black" />
         <line x1="145" x2="155" y1="90" y2="90" stroke="black" />
         <line x1="145" x2="155" y1="210" y2="210" stroke="black" />
         <line x1="145" x2="155" y1="270" y2="270" stroke="black" />
 
-        <!-- Насечки по X -->
+        <!-- X marks -->
         <line y1="145" y2="155" x1="30" x2="30" stroke="black" />
         <line y1="145" y2="155" x1="90" x2="90" stroke="black" />
         <line y1="145" y2="155" x1="210" x2="210" stroke="black" />
         <line y1="145" y2="155" x1="270" x2="270" stroke="black" />
 
-        <!-- Подписи осей -->
+        <!-- Axises labels -->
         <text x="290" y="140" font-size="16" fill="black">x</text>
         <text x="160" y="10" font-size="16" fill="black">y</text>
 
-        <!-- Подписи R по Y -->
+        <!--  R labels on Y -->
         <text x="160" y="35" font-size="16" fill="black">R</text>
         <text x="160" y="95" font-size="16" fill="black">R/2</text>
         <text x="160" y="215" font-size="16" fill="black">-R/2</text>
         <text x="160" y="275" font-size="16" fill="black">-R</text>
 
-        <!-- Подписи R по X -->
+        <!-- R labels on X -->
         <text y="140" x="20" font-size="16" fill="black">-R</text>
         <text y="140" x="75" font-size="16" fill="black">-R/2</text>
         <text y="140" x="200" font-size="16" fill="black">R/2</text>
@@ -96,6 +96,7 @@
     </h:panelGroup>
     <div class="section">
       <h:form styleClass="form">
+        <!-- X input -->
         <div class="input-block">
           <h:outputText
             styleClass="label"
@@ -121,7 +122,7 @@
           </div>
         </div>
 
-        <!-- Ввод Y -->
+        <!-- Y Input -->
         <div class="input-block">
           <p:outputLabel
             value="Значение Y:"
@@ -139,7 +140,7 @@
           </p:inputNumber>
         </div>
 
-        <!-- Ввод R -->
+        <!-- R input -->
         <div class="input-block">
           <p:outputLabel
             value="Значение R:"
@@ -150,6 +151,11 @@
             value="#{mainPageBean.r}"
             styleClass="r-input"
           >
+            <f:selectItem
+              itemLabel="-- Выберите из списка --"
+              noSelectionOption="true"
+              itemDisabled="true"
+            />
             <f:selectItem itemLabel="1" itemValue="1" />
             <f:selectItem itemLabel="2" itemValue="2" />
             <f:selectItem itemLabel="3" itemValue="3" />
