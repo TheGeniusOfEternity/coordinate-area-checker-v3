@@ -12,6 +12,6 @@ ENV PATH="$WILDFLY_HOME/bin:$PATH"
 
 EXPOSE 8080 9990
 
-CMD ["standalone.sh", "-b", "0.0.0.0"]
+CMD ["standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
 
 
