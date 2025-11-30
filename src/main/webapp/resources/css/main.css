@@ -21,8 +21,7 @@ body {
             grid-template-rows: auto auto auto;
             gap: 1.25rem;
             padding: 1rem;
-
-
+            width: 100%;
 
             .input-block {
                 display: flex;
@@ -101,12 +100,7 @@ body {
         svg {
             aspect-ratio: 1 /1;
             height: 60vh;
-            opacity: 0;
             transition: opacity 0.3s;
-        }
-
-        .rendered {
-            opacity: 1;
         }
 
         svg:hover {
@@ -122,9 +116,28 @@ body {
 
 
         #tableWrapper {
-            padding: 1rem 1rem 0 1rem;
-            height: 62%;
+            padding: 0 1rem;
+            height: 100%;
         }
+    }
+
+    .shot-dot {
+        transition: fill 0.2s ease, r 0.2s ease;
+        cursor: pointer;
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+    }
+
+    .shot-dot:hover {
+        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+        r: 6px;
+    }
+
+    .shot-dot-hit {
+        fill: #22c55e;
+    }
+
+    .shot-dot-miss {
+        fill: #ef4444;
     }
 }
 

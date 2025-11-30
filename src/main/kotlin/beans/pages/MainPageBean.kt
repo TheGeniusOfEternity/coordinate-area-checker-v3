@@ -2,17 +2,15 @@ package beans.pages
 
 import entities.Shot
 import jakarta.annotation.PostConstruct
-import jakarta.faces.view.ViewScoped
+import jakarta.enterprise.context.SessionScoped
+import jakarta.faces.context.FacesContext
 import jakarta.inject.Inject
 import jakarta.inject.Named
 import repositories.ShotRepository
 import java.io.Serializable
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.TimeZone
 
-@ViewScoped
+@SessionScoped
 @Named("mainPageBean")
 class MainPageBean: Serializable {
 
@@ -20,7 +18,7 @@ class MainPageBean: Serializable {
     private lateinit var shotRepository: ShotRepository
 
     private var shots: List<Shot> = listOf()
-    private var x: Int? = null
+    private var x: Float? = null
     private var y: Float? = null
     private var r: Int? = null
 
@@ -39,11 +37,11 @@ class MainPageBean: Serializable {
         return optionsX
     }
 
-    fun getX(): Int? {
+    fun getX(): Float? {
         return x
     }
 
-    fun setX(x: Int?) {
+    fun setX(x: Float?) {
         this.x = x
     }
 
@@ -64,8 +62,14 @@ class MainPageBean: Serializable {
     }
 
     fun submitForm() {
-        val xVal = x
-        val yVal = y
+        val context = FacesContext.getCurrentInstance()
+        val requestMap = context.externalContext.requestParameterMap
+
+        val xFromHidden = requestMap["main-form:precisedX"]?.toFloatOrNull()
+        val yFromHidden = requestMap["main-form:precisedY"]?.toFloatOrNull()
+
+        val xVal = xFromHidden ?: x
+        val yVal = yFromHidden ?: y
         val rVal = r
 
         if (xVal != null && yVal != null && rVal != null) {
@@ -86,11 +90,17 @@ class MainPageBean: Serializable {
         if (fetchedShots != null) shots = fetchedShots
     }
 
-    fun isHit(x: Int, y: Float, r: Int): Boolean {
-        if (x <= 0 && y <= 0) return x <= -r && y <= -r
-        if (x >= 0 && y >= 0) return x + y <= r
-        if (x > 0 && y < 0) return x * x + y * y <= r * r
-        return true
+    fun isHit(x: Float, y: Float, r: Int): Boolean {
+        return when {
+            // Triangle
+            x >= 0 && y >= 0 -> x + y <= r
+            // Empty
+            x <= 0 && y >= 0 -> false
+            // Square
+            x <= 0 && y <= 0 -> x >= -r && y >= -r
+            // Circle
+            else -> x * x + y * y <= r * r
+        }
     }
 
     fun goToStartPage(): String {

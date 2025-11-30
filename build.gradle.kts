@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.eternals"
-version = "1.0-SNAPSHOT"
+version = "4.0.0-Release"
 
 repositories {
     mavenCentral()
