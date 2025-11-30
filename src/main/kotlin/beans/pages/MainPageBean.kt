@@ -64,7 +64,7 @@ class MainPageBean: Serializable {
         val xVal = x
         val yVal = y
         val rVal = r
-
+        println("x= $xVal, y= $yVal, r= $rVal")
         if (xVal != null && yVal != null && rVal != null) {
             val shot = shotRepository.save(
                 Shot(
