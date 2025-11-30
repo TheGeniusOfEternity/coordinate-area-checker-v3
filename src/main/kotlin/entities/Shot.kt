@@ -10,10 +10,10 @@ class Shot {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shots_seq")
     @SequenceGenerator(name = "shots_seq", sequenceName = "shots_id_seq", allocationSize = 1)
     @Column(name = "id")
-    var id: Int? = null
+    var id: Float? = null
 
     @Column(name = "x", nullable = false)
-    var x: Int = 0
+    var x: Float = 0f
 
     @Column(name = "y", nullable = false)
     var y: Float = 0f
@@ -30,7 +30,7 @@ class Shot {
 
     constructor()
 
-    constructor(x: Int, y: Float, r: Int, isHit: Boolean) {
+    constructor(x: Float, y: Float, r: Int, isHit: Boolean) {
         this.x = x
         this.y = y
         this.r = r

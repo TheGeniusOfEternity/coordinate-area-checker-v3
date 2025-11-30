@@ -17,6 +17,7 @@
     <title>JSF - Главная страница</title>
     <h:outputStylesheet library="css" name="common.css" />
     <h:outputStylesheet library="css" name="main.css" />
+    <h:outputScript library="js" name="main.js" />
   </h:head>
   <h:body styleClass="zoomed-in">
     <h:panelGroup id="svgWrapper" styleClass="section">
@@ -172,6 +173,7 @@
             styleClass="ui-button"
             update="tableWrapper"
             action="#{mainPageBean.submitForm}"
+            onclick="clearPrecision()"
             process="@form"
             disabled="#{
               mainPageBean.x == null ||
@@ -194,8 +196,8 @@
           />
         </div>
 
-        <h:inputHidden id="clickedX" value="#{mainPageBean.x}" />
-        <h:inputHidden id="clickedY" value="#{mainPageBean.y}" />
+        <h:inputHidden id="precisedX" />
+        <h:inputHidden id="precisedY" />
       </h:form>
       <h:panelGroup id="tableWrapper" layout="block">
         <comp:table
@@ -207,53 +209,5 @@
         />
       </h:panelGroup>
     </div>
-    <script>
-        function cleanupBeforeNavigation() {
-            for (let i = 1; i &lt; 10000; i++) {
-                clearInterval(i);
-                clearTimeout(i);
-            }
-        }
-        function handleSvgClick(event) {
-            const rInput = document.getElementById('main-form:rInput_input');
-            if (!rInput || !rInput.value) {
-                alert('Пожалуйста, выберите значение R');
-                return;
-            }
-
-            const r = parseInt(rInput.value);
-            const svg = document.getElementById('svg-graph');
-            const rect = svg.getBoundingClientRect();
-
-            const clickX = (event.clientX - rect.left) * (300 / rect.width);
-            const clickY = (event.clientY - rect.top) * (300 / rect.height);
-
-            const databaseX = Math.round((clickX - 150) * r / 120);
-            const databaseY = Math.round((150 - clickY) * r / 120);
-
-            const clampedX = Math.max(-r, Math.min(r, databaseX));
-            const clampedY = Math.max(-r, Math.min(r, databaseY));
-
-            console.log("Clicked: x=" + clampedX + ", y=" + clampedY);
-
-            // Заполни скрытые инпуты
-            document.getElementById('main-form:clickedX').value = clampedX;
-            document.getElementById('main-form:clickedY').value = clampedY;
-
-            // Кликни скрытую кнопку
-            document.getElementById('main-form:add-point-btn').click();
-        }
-
-        document.addEventListener('click', function(e) {
-            const svg = e.target.closest('svg#svg-graph');
-            if (svg) {
-                e.stopPropagation();
-                console.log("SVG clicked!");
-                handleSvgClick(e);
-            }
-        }, false);
-        document.body.classList.remove("zoomed-out")
-        document.body.classList.add("zoomed-in")
-    </script>
   </h:body>
 </html>

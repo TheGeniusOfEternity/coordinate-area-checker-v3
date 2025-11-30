@@ -2,6 +2,7 @@ package beans.pages
 
 import entities.Shot
 import jakarta.annotation.PostConstruct
+import jakarta.faces.context.FacesContext
 import jakarta.faces.view.ViewScoped
 import jakarta.inject.Inject
 import jakarta.inject.Named
@@ -17,7 +18,7 @@ class MainPageBean: Serializable {
     private lateinit var shotRepository: ShotRepository
 
     private var shots: List<Shot> = listOf()
-    private var x: Int? = null
+    private var x: Float? = null
     private var y: Float? = null
     private var r: Int? = null
 
@@ -36,11 +37,11 @@ class MainPageBean: Serializable {
         return optionsX
     }
 
-    fun getX(): Int? {
+    fun getX(): Float? {
         return x
     }
 
-    fun setX(x: Int?) {
+    fun setX(x: Float?) {
         this.x = x
     }
 
@@ -61,10 +62,18 @@ class MainPageBean: Serializable {
     }
 
     fun submitForm() {
-        val xVal = x
-        val yVal = y
+        val context = FacesContext.getCurrentInstance()
+        val requestMap = context.externalContext.requestParameterMap
+
+        val xFromHidden = requestMap["main-form:precisedX"]?.toFloatOrNull()
+        val yFromHidden = requestMap["main-form:precisedY"]?.toFloatOrNull()
+
+        val xVal = xFromHidden ?: x
+        val yVal = yFromHidden ?: y
         val rVal = r
-        println("x= $xVal, y= $yVal, r= $rVal")
+
+        println("xVal: $xVal, yVal: $yVal, rVal: $rVal")
+
         if (xVal != null && yVal != null && rVal != null) {
             val shot = shotRepository.save(
                 Shot(
@@ -74,6 +83,7 @@ class MainPageBean: Serializable {
                     isHit(xVal, yVal, rVal)
                 )
             )
+            println(shot)
             if (shot != null) refreshShots()
         }
     }
@@ -83,7 +93,7 @@ class MainPageBean: Serializable {
         if (fetchedShots != null) shots = fetchedShots
     }
 
-    fun isHit(x: Int, y: Float, r: Int): Boolean {
+    fun isHit(x: Float, y: Float, r: Int): Boolean {
         return when {
             // Triangle
             x >= 0 && y >= 0 -> x + y <= r
