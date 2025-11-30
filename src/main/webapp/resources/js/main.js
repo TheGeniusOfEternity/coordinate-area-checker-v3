@@ -3,7 +3,6 @@
         const svg = e.target.closest('svg#svg-graph');
         if (svg) {
             e.stopPropagation();
-            console.log("SVG clicked!");
             handleSvgClick(e);
         }
     };
@@ -34,8 +33,6 @@
 
         const databaseX = ((clickX - 150) * r / 120).toFixed(2);
         const databaseY = ((150 - clickY) * r / 120).toFixed(2);
-
-        console.log("Clicked: x=" + databaseX + ", y=" + databaseY);
 
         document.getElementById('main-form:precisedX').value = databaseX;
         document.getElementById('main-form:precisedY').value = databaseY;
