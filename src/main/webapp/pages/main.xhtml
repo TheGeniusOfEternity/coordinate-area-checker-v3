@@ -184,7 +184,7 @@
           <p:commandButton
             styleClass="ui-button-outlined redirect-btn"
             icon="pi pi-arrow-left"
-            value="Вернуться на стартовую страницу"
+            value="Вернуться назад"
             action="#{mainPageBean.goToStartPage}"
             onclick="cleanupBeforeNavigation()"
           />
@@ -210,8 +210,12 @@
       </h:panelGroup>
     </div>
     <script>
-        document.body.classList.remove("zoomed-out")
-        document.body.classList.add("zoomed-in")
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                document.body.classList.remove("zoomed-out");
+                document.body.classList.add("zoomed-in");
+            });
+        });
     </script>
   </h:body>
 </html>
