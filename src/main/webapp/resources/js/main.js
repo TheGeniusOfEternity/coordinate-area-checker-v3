@@ -35,18 +35,13 @@
         const databaseX = ((clickX - 150) * r / 120).toFixed(2);
         const databaseY = ((150 - clickY) * r / 120).toFixed(2);
 
-        const clampedX = Math.max(-r, Math.min(r, parseFloat(databaseX)));
-        const clampedY = Math.max(-r, Math.min(r, parseFloat(databaseY)));
+        console.log("Clicked: x=" + databaseX + ", y=" + databaseY);
 
-        console.log("Clicked: x=" + clampedX + ", y=" + clampedY);
-
-        document.getElementById('main-form:precisedX').value = clampedX;
-        document.getElementById('main-form:precisedY').value = clampedY;
+        document.getElementById('main-form:precisedX').value = databaseX;
+        document.getElementById('main-form:precisedY').value = databaseY;
 
         document.getElementById('main-form:add-point-btn').click();
     }
 
     document.addEventListener('click', svgClickListener, false);
-    document.body.classList.remove("zoomed-out")
-    document.body.classList.add("zoomed-in")
 })();

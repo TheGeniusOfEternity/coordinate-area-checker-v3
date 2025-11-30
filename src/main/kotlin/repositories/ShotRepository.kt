@@ -18,7 +18,8 @@ class ShotRepository: Serializable {
             entityManager.persist(shot)
             entityManager.flush()
             return shot
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            println(e.message)
             return null
         }
     }

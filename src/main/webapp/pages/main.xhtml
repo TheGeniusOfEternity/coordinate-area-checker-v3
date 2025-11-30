@@ -171,7 +171,7 @@
             id="submit-btn"
             value="Отправить"
             styleClass="ui-button"
-            update="tableWrapper"
+            update="tableWrapper,svgWrapper"
             action="#{mainPageBean.submitForm}"
             onclick="clearPrecision()"
             process="@form"
@@ -209,5 +209,9 @@
         />
       </h:panelGroup>
     </div>
+    <script>
+        document.body.classList.remove("zoomed-out")
+        document.body.classList.add("zoomed-in")
+    </script>
   </h:body>
 </html>

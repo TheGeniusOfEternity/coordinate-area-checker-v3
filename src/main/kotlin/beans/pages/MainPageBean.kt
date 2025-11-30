@@ -2,15 +2,15 @@ package beans.pages
 
 import entities.Shot
 import jakarta.annotation.PostConstruct
+import jakarta.enterprise.context.SessionScoped
 import jakarta.faces.context.FacesContext
-import jakarta.faces.view.ViewScoped
 import jakarta.inject.Inject
 import jakarta.inject.Named
 import repositories.ShotRepository
 import java.io.Serializable
 import java.util.TimeZone
 
-@ViewScoped
+@SessionScoped
 @Named("mainPageBean")
 class MainPageBean: Serializable {
 
@@ -72,8 +72,6 @@ class MainPageBean: Serializable {
         val yVal = yFromHidden ?: y
         val rVal = r
 
-        println("xVal: $xVal, yVal: $yVal, rVal: $rVal")
-
         if (xVal != null && yVal != null && rVal != null) {
             val shot = shotRepository.save(
                 Shot(
@@ -83,7 +81,6 @@ class MainPageBean: Serializable {
                     isHit(xVal, yVal, rVal)
                 )
             )
-            println(shot)
             if (shot != null) refreshShots()
         }
     }

@@ -10,7 +10,7 @@ class Shot {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shots_seq")
     @SequenceGenerator(name = "shots_seq", sequenceName = "shots_id_seq", allocationSize = 1)
     @Column(name = "id")
-    var id: Float? = null
+    var id: Int? = null
 
     @Column(name = "x", nullable = false)
     var x: Float = 0f
